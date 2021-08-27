@@ -1,6 +1,19 @@
 # exam_question_classification
 Modelo de Machine Learning para Classificação de Questões do Vestibular
 
+# Análise de Questões
+## Exposição do Problema
+
+Este projeto iniciou-se a partir de um problema da startup em que faço parte. Um certo momento, levantou-se a necessidade de fornecer aos nossos usuários, questões de vestibulares para que eles possam estudar mais e ter mais conteúdos para se darem bem no vestibular.
+Assim, criou-se um banco de dados com 120 mil questões
+Porém, após validarmos os dados, identificou-se que nem todos as questões estavam classificadas de acordo com o assunto que elas pertenciam.
+Assim, surgiu a ideia de implementar um modelo e treiná-lo, a fim de classificar cada questão de acordo com o assunto que essa questão pertence.
+
+## Modelo
+Para isso, foi necessário utilizar alguma técnica para a avaliação de textos.
+Assim, idealizou-se usar o bag of words. Uma explicação simples é que o bag of words é uma lista que contem todas as palavras que estão nos textos de maneira não repetida.
+Utilizamos ela para poder identificar as palavras mais recorrentes e entender se ela agregam na classificação das questões.
+
 
 classificação
 
