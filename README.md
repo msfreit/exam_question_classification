@@ -259,4 +259,4 @@ https://www.computersciencemaster.com.br/como-criar-um-saco-de-palavras-em-pytho
 ########################################
 
 ---
-⌨️ por [Mauricio Freitas](https://github.com/msfreit) 😊
+⌨️ por [Mauricio Freitas](https://github.com/msfreit)
