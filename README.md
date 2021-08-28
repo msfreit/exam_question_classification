@@ -47,9 +47,61 @@ for sentence in corpus:
 
 Após criar um array com a frequencia de cada palavra, é necessário eliminar as palavras "irrelevantes" para o nosso problema (stopwords), com o objetivo de reduzir o ruído dos dados analisados. Assim, se a palavra faz parte do conjunto de palavras do meu _stopwords_, altero a frequência da mesma para _zero_.
 
+```
+stopwords = nltk.corpus.stopwords.words('portuguese')
+for word in wordfreq:
+    if word in stopwords:
+        wordfreq[word] = 0
+    if (word.isnumeric()):  # removendo números
+        wordfreq[word] = 0
+```
 
-<ins> teste </ins>
-*__teste__*
+Agora, ordena-se essa lista considerando aqueles termos que aparecem com mais frequência. No nosso caso, selecionamos as 150 palavras mais frequêntes.
+
+```
+import heapq
+
+MOST_FREQUENT_NUMBER = 150
+
+most_freq = heapq.nlargest(MOST_FREQUENT_NUMBER, wordfreq, key=wordfreq.get)
+```
+
+O ultimo passo é criar o saco de palavras transcrevendo cada documento para uma informação booleana dizendo se cada palavra do saco de palavras está presente ou não no documento. Se a palavra estiver na sentença, coloca 1, se não, 0.
+
+```
+sentence_vectors = []
+for sentence in corpus:
+    sentence_tokens = nltk.word_tokenize(sentence)
+
+    sent_vec = []
+    for token in most_freq:
+        if token in sentence_tokens:
+            sent_vec.append(1)
+        else:
+            sent_vec.append(0)
+    sentence_vectors.append(sent_vec)
+
+sentence_vectors = np.array(sentence_vectors)
+```
+
+
+## III - Preparação dos dados
+Para a aquisição das questões, foi feito uma ferramenta de webscrapping para captura das questões.
+Assim, os dados são recebidos e inseridos no banco no formato HTML
+Com isso, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
+
+## IV - Análise exploratória
+
+## V - Modelagem
+
+O modelo proposto foi desenhado de acordo com a classificação já existente no banco de dados. As classificações existentes consistiam na concatenação dos assuntos em que a questão estava envolvida.
+
+Exemplos de classificação:
+* Álgebra Matemática Financeira Números
+* Noções de lógica Noções de Lógica Matemática
+* Álgebra Grandezas e medidas Razão e Proporção
+
+Pode-se observar que há diversos assuntos para uma questão única, o que nos mostra que esse é um problema com multiplas saídas/resultados.
 
 
 ########################################################################
@@ -131,3 +183,13 @@ Vídeo sobre descrição automática de cenas: https://www.youtube.com/watch?v=4
 ############################################################################
 10/07/2021
 Como definir o número ideal de clusters para o K Means: https://jtemporal.com/kmeans-and-elbow-method/
+
+
+
+########################################
+## BAG OF WORDS
+### Observações importantes
+O saco de palavras permite que você utilize classificadores e faça outras análises posteriormente. Criar um saco de palavra não te dá informação alguma instantaneamente.   O saco de palavras utilizando a incidência das palavras pode ser utilizado, porém, esse modelo possui problemas já bem conhecidos. São eles: (1) “perda” de informação sintática, considerando que se trata de uma abordagem estatística. (2) Modelos que consideram a frequência inversa de palavras no conjunto de documentos já provaram ser mais eficientes em muitos casos.
+
+https://www.computersciencemaster.com.br/como-criar-um-saco-de-palavras-em-python/
+########################################
