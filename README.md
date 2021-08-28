@@ -1,10 +1,8 @@
-# exam_question_classification
+# Classificação de Questões de Vestibular
 
 Modelo de Machine Learning para Classificação de Questões de Vestibular
 
-# Análise de Questões
-
-## I - Exposição do Problema
+## I - Exposição do Problema 🚀
 
 Este projeto iniciou-se a partir de um problema da startup em que faço parte. Um certo momento, levantou-se a necessidade de fornecer aos nossos usuários, questões de vestibulares para que eles possam estudar mais e ter mais conteúdos para se darem bem no vestibular.
 Assim, criou-se um banco de dados com 120 mil questões
@@ -19,6 +17,11 @@ Utilizamos ela para poder identificar as palavras mais recorrentes e entender se
 ## II - Importação dos dados
 
 Como os dados estavam no bando do Mongo. utilizei o framework do MongoDB para conectar e importar os dados para o Python
+
+## III - Preparação dos dados
+Para a aquisição das questões, foi feito uma ferramenta de webscrapping para captura das questões.
+Assim, os dados são recebidos e inseridos no banco no formato HTML
+Com isso, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
 
 ```
 from bs4 import BeautifulSoup
@@ -85,11 +88,6 @@ sentence_vectors = np.array(sentence_vectors)
 ```
 
 
-## III - Preparação dos dados
-Para a aquisição das questões, foi feito uma ferramenta de webscrapping para captura das questões.
-Assim, os dados são recebidos e inseridos no banco no formato HTML
-Com isso, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
-
 ## IV - Análise exploratória
 
 ## V - Modelagem
@@ -144,7 +142,7 @@ Como o problema consiste em uma classificação de multiplas saídas, foi utiliz
 Para que essa classe funcione corretamente, é necessário escolher um _estimator_, que, nesse caso, utilizamos o _RandomForestClassifier_.
 
 ```
-clf = MultiOutputClassifier(RandomForestClassifier(max_depth=24, min_samples_leaf=6)) # 40.9% com 100 e 3k questões sem pca
+clf = MultiOutputClassifier(RandomForestClassifier(max_depth=24, min_samples_leaf=6))
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 ```
