@@ -257,3 +257,6 @@ O saco de palavras permite que você utilize classificadores e faça outras aná
 
 https://www.computersciencemaster.com.br/como-criar-um-saco-de-palavras-em-python/
 ########################################
+
+---
+⌨️ por [Mauricio Freitas](https://github.com/msfreit) 😊
