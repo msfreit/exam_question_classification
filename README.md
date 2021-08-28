@@ -49,6 +49,7 @@ Após criar um array com a frequencia de cada palavra, é necessário eliminar a
 
 
 <ins> teste </ins>
+*__teste__*
 
 
 ########################################################################
