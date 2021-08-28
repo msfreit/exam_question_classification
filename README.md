@@ -47,6 +47,13 @@ for sentence in corpus:
 
 Após criar um array com a frequencia de cada palavra, é necessário eliminar as palavras "irrelevantes" para o nosso problema (stopwords), com o objetivo de reduzir o ruído dos dados analisados. Assim, se a palavra faz parte do conjunto de palavras do meu _stopwords_, altero a frequência da mesma para _zero_.
 
+
+<ins> teste </ins>
+
+
+########################################################################
+Anotações
+########################################################################
 classificação
 
 agrupar questões
