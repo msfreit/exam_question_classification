@@ -103,6 +103,72 @@ Exemplos de classificação:
 
 Pode-se observar que há diversos assuntos para uma questão única, o que nos mostra que esse é um problema com multiplas saídas/resultados.
 
+Uma vez que o modelo foi desenhado para classificar os assuntos de matemática, foi necessário separar essa única classificação "conjuntas" em diversas classificações. Assim, levantou-se todas as possibilidades de assuntos existentes no banco de questões de matemática, criando assim um _array_ com 87 assuntos distintos.
+
+```
+subjects = ['Álgebra', 'Probabilidade e estatística', 'Números', 'Noções de lógica',
+            'Noções de Lógica Matemática', 'Matemática Financeira', 'Grandezas e medidas', 'Razão e Proporção',
+            'Geometria', 'Estatística', 'Determinantes', 'Álgebra linear', 'Análise Combinatória', 'Arcos na Circunferência',
+            'Área e Perímetro das Figuras Planas', 'Aritmética', 'Arranjo', 'Cálculo diferencial integral', 'Cilindros', 'Circunferência',
+            'Circunferência e Círculo', 'Combinação', 'Comprimento', 'Volume', 'Cones', 'Esfera', 'Congruência de Triângulos',
+            'Cônicas', 'Conjuntos', 'Conjuntos Função', 'Decimal', 'Equação do Primeiro Grau', 'Equação do Segundo Grau',
+            'Equações', 'Equações polinomiais', 'Equações polinomiais Exponenciais', 'Esfera', 'Expressões algébricas', 'Expressões algébricas',
+            'Fatorial', 'Função', 'Função Exponencial', 'Função Logarítmica', 'Razões e proporções',
+            'Função Quadrática', 'Função Trigonometria', 'Funções Definidas por Várias Sentenças', 'Funções Trigonométricas', 'Fundamentos',
+            'Geometria analítica', 'Geometria espacial', 'Geometria plana', 'Gráficos', 'Inequação do Segundo Grau', 'Inequações', 'Inequações polinomiais',
+            'Inequações polinomiais', 'Juros Compostos', 'Juros Simples', 'Lógica matemática', 'Prismas', 'Médias',
+            'Ponderada', 'Porcentagem', 'Probabilidade', 'Múltiplos e Divisores', 'Notação científica',
+            'Outros', 'Permutação', 'Pirâmides', 'Polígonos', 'Porcentagem', 'Princípio Fundamental da Contagem', 'Prismas', 
+            'Problemas sobre as 4 operações', 'Razões Trigonométricas no Triângulo Retângulo', 'Relações Métricas do Triângulo Retângulo',
+            'Relações Métricas em Triângulos Quaisquer', 'Reta', 'Retas e Planos', 'Sequências', 'Sistema de Numeração e Métrico', 'Superfície Poliédrica e Poliedros',
+            'Tempo', 'Trigonometria', 'Troncos', 'Volume']
+```
+
+Como feito nas questões, o _output_ foi dividido igual o bag of words implementado no enunciado das questões. Para o treinamento do modelo, foi colocado 1 ou 0 se o assunto pertencia àquela questão ou não.
+
+```
+df = documents
+for index, document in df.iterrows():
+    i = 0
+    for subject in subjects:
+        i += 1
+        column_name = "tag_"+str(i)
+        if (subject in document["level_2"]) or (subject in document["level_3"]):
+            df.loc[index, subject] = 1
+        else:
+            df.loc[index, subject] = 0
+```
+### testes de classificadores
+
+Como o problema consiste em uma classificação de multiplas saídas, foi utilizado a classe _MultiOutputClassifier_ da biblioteca _sklearn_.
+Para que essa classe funcione corretamente, é necessário escolher um _estimator_, que, nesse caso, utilizamos o _RandomForestClassifier_.
+
+```
+clf = MultiOutputClassifier(RandomForestClassifier(max_depth=24, min_samples_leaf=6)) # 40.9% com 100 e 3k questões sem pca
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+```
+
+Agora, é feito o teste para avaliar se o treinamento deu certo.
+Crio-se um vetor (hits) que me mostra quais predições foram corretas. Como se trata de um problema de multiplas saídas, foi avaliado se pelo menos 1 assunto foi predito corretamente.
+No início, foi testado apenas as classificações que bateram 100% com as classificações de teste, porém, os valores eram muito baixos e não fez sentido ao problema que tínhamos.
+Nesse caso e aplicado ao problema que tínhamos, tendo apenas uma ou mais classificações corretas, ja nos atendia e resolvia o problema.
+
+```
+hits = np.any((y_pred + y_test) > 1, axis=1)
+print("taxa de acerto: ", round(hits.sum()/len(hits)*100,2), "%")
+```
+
+Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 65%.
+
+![plot](./model_output.png)
+
+########################################################################
+● Divisão dos dados em dados de treino e teste
+● Criação de um benchmark (modelo inicial para comparações futuras)
+● Triagem de modelo(s) para utilização
+● Utilização de métricas de mensuração de performance dos algoritmos
+● Calibração dos hiperparâmetros do(s) algoritmo(s)
 
 ########################################################################
 Anotações
