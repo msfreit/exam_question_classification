@@ -90,7 +90,7 @@ sentence_vectors = np.array(sentence_vectors)
 
 ## IV - Análise exploratória
 
-![plot](./model_output.png)
+![plot](./wordcloud.png)
 
 ## V - Modelagem
 
