@@ -90,15 +90,22 @@ sentence_vectors = np.array(sentence_vectors)
 
 ## IV - Análise exploratória
 
+Para análise exploratória, algumas questões foram levantadas para que os dados nos respondessem.
+
+### Quais os assuntos mais recorrentes?
+
 Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores
-![plot](./subject_count.png)
+
+![plot](./fig_subject_count.png)
+
+### Quais as palavras mais recorrentes?
 
 Foi validado quais eram as palavras mais recorrentes, para validar se não haviam palavras que não deveriam estar presentes.
 
-![plot](./word_count.png)
+![plot](./fig_word_count.png)
 
 
-![plot](./wordcloud.png)
+![plot](./fig_wordcloud.png)
 
 ## V - Modelagem
 
@@ -173,7 +180,7 @@ print("taxa de acerto: ", round(hits.sum()/len(hits)*100,2), "%")
 
 Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 65%.
 
-![plot](./model_output.png)
+![plot](./fig_model_output.png)
 
 ########################################################################
 ● Divisão dos dados em dados de treino e teste
