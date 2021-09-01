@@ -90,6 +90,14 @@ sentence_vectors = np.array(sentence_vectors)
 
 ## IV - Análise exploratória
 
+Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores
+![plot](./subject_count.png)
+
+Foi validado quais eram as palavras mais recorrentes, para validar se não haviam palavras que não deveriam estar presentes.
+
+![plot](./word_count.png)
+
+
 ![plot](./wordcloud.png)
 
 ## V - Modelagem
