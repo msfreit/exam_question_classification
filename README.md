@@ -18,6 +18,13 @@ Utilizamos ela para poder identificar as palavras mais recorrentes e entender se
 
 Como os dados estavam no bando do Mongo. utilizei o framework do MongoDB para conectar e importar os dados para o Python
 
+```
+client = MongoClient(config["MONGO_CONNECTION_STRING"])
+database = client["revisapp"]
+collection = database["questions"]
+```
+
+
 ## III - Preparação dos dados
 Para a aquisição das questões, foi feito uma ferramenta de webscrapping para captura das questões.
 Assim, os dados são recebidos e inseridos no banco no formato HTML
@@ -34,6 +41,44 @@ for i in range(len(corpus )):
     
 ```
 
+Uma vez que os dados foram limpos e com seus caracteres especias removidos, foi necessário fazer o processo de _Stemming_, que consiste em reduzir palavras relacionadas a uma forma mínima comum, de forma que possam ser combinadas sob uma única representação, chamada de _stem_. Com este processo, obtém-se índices mais enxutos, melhorando assim a qualidade dos dados para o modelo.
+
+Assim, foi criado uma função com esse objetivo, utilizando a biblioteca _nltk.stem_.
+
+```
+from nltk.tokenize import word_tokenize
+from nltk.stem import RSLPStemmer
+from unidecode import unidecode
+
+stemmer = RSLPStemmer()
+
+def stemSentence(sentence):
+    token_words = word_tokenize(sentence)
+    token_words
+    stem_sentence = []
+    for word in token_words:
+        if word not in nltk.corpus.stopwords.words('portuguese'):
+            word = stemmer.stem(word)
+            word = unidecode(word)
+            stem_sentence.append(word)  
+            stem_sentence.append(" ")
+    return "".join(stem_sentence)
+```
+
+Essa função criada, além de fazer o _stem_, também remove os acentos e os _stopwords_. 
+Os _stopwords_ são palavras que podem ser consideradas irrelevantes para o conjunto de resultados a ser exibido em uma busca realizada em uma search engine. Exemplos: as, e, os, de, para, com, sem, foi, etc..
+
+Assim, as palavras a serem consideradas são reduzidas, conforme exemplo abaixo::
+
+```
+'med centimetr lad triangul express x 1 2x x2 5 progress aritme ness ord calcul perimetr triangul ',
+'sequ figur desenh malh quadricul indic tre prim etap form fract cad quadr dess malh are 1 cm2 ',
+'consider med metr lad triangul progress geometr ness ord express x 1 2x x2 corret afirm perimetr dess triangul med ',
+'sequ infinit triangul equilater pod ser constru inscrev triangul dentr outr part prim ',
+'consid triangul i ii iii caracter abaix atraves med lad triangul i 9 12 15 triangul ii 5 12 13 triangul iii 5 7 9 qual triangul retangul med lad progress aritme ',
+'sequ x 1 2x 1 5x 3 constitu progress aritme tre term cuj val represent med centimetr lad triangul dess mod corret afirm perimetr dess triangul centimetr igual ',
+```
+
 Como parte do processo de processamento de texto, é necessário verificar quais palavras são as mais frequentes, para que sejam usadas posteriormente.
 Assim, foi utilizado a função "word_tokenize", que pega uma sentença e separa os dados em posições de uma lista.
 
@@ -46,17 +91,6 @@ for sentence in corpus:
             wordfreq[token] = 1
         else:
             wordfreq[token] += 1
-```
-
-Após criar um array com a frequencia de cada palavra, é necessário eliminar as palavras "irrelevantes" para o nosso problema (stopwords), com o objetivo de reduzir o ruído dos dados analisados. Assim, se a palavra faz parte do conjunto de palavras do meu _stopwords_, altero a frequência da mesma para _zero_.
-
-```
-stopwords = nltk.corpus.stopwords.words('portuguese')
-for word in wordfreq:
-    if word in stopwords:
-        wordfreq[word] = 0
-    if (word.isnumeric()):  # removendo números
-        wordfreq[word] = 0
 ```
 
 Agora, ordena-se essa lista considerando aqueles termos que aparecem com mais frequência. No nosso caso, selecionamos as 150 palavras mais frequêntes.
@@ -87,10 +121,51 @@ for sentence in corpus:
 sentence_vectors = np.array(sentence_vectors)
 ```
 
+Uma vez que o modelo foi desenhado para classificar os assuntos de matemática, foi necessário separar essa única classificação "conjuntas" em diversas classificações. Assim, levantou-se todas as possibilidades de assuntos existentes no banco de questões de matemática, criando assim um _array_ com 81 assuntos distintos.
+
+```
+subjects = ['Álgebra', 'Probabilidade e estatística', 'Números', 'Noções de lógica',
+            'Noções de Lógica Matemática', 'Matemática Financeira', 'Grandezas e medidas', 'Razão e Proporção',
+            'Geometria', 'Estatística', 'Determinantes', 'Álgebra linear', 'Análise Combinatória', 'Arcos na Circunferência',
+            'Área e Perímetro das Figuras Planas', 'Aritmética', 'Arranjo', 'Cálculo diferencial integral', 'Cilindros', 'Circunferência',
+            'Circunferência e Círculo', 'Combinação', 'Comprimento', 'Volume', 'Cones', 'Esfera', 'Congruência de Triângulos',
+            'Cônicas', 'Conjuntos', 'Conjuntos Função', 'Decimal', 'Equação do Primeiro Grau', 'Equação do Segundo Grau',
+            'Equações', 'Equações polinomiais', 'Equações polinomiais Exponenciais', 'Esfera', 'Expressões algébricas', 'Expressões algébricas',
+            'Fatorial', 'Função', 'Função Exponencial', 'Função Logarítmica', 'Razões e proporções',
+            'Função Quadrática', 'Função Trigonometria', 'Funções Definidas por Várias Sentenças', 'Funções Trigonométricas', 'Fundamentos',
+            'Geometria analítica', 'Geometria espacial', 'Geometria plana', 'Gráficos', 'Inequação do Segundo Grau', 'Inequações', 'Inequações polinomiais',
+            'Inequações polinomiais', 'Juros Compostos', 'Juros Simples', 'Lógica matemática', 'Prismas', 'Médias',
+            'Ponderada', 'Porcentagem', 'Probabilidade', 'Múltiplos e Divisores', 'Notação científica',
+            'Outros', 'Permutação', 'Pirâmides', 'Polígonos', 'Princípio Fundamental da Contagem', 'Prismas', 
+            'Problemas sobre as 4 operações', 'Razões Trigonométricas no Triângulo Retângulo', 'Relações Métricas do Triângulo Retângulo',
+            'Relações Métricas em Triângulos Quaisquer', 'Reta', 'Retas e Planos', 'Sequências', 'Sistema de Numeração e Métrico', 'Superfície Poliédrica e Poliedros',
+            'Tempo', 'Trigonometria', 'Troncos']
+```
+
+Como feito nas questões, o _output_ foi dividido igual o bag of words implementado no enunciado das questões. Para o treinamento do modelo, foi colocado 1 ou 0 se o assunto pertencia àquela questão ou não.
+
+```
+df = documents
+for index, document in df.iterrows():
+    i = 0
+    for subject in subjects:
+        i += 1
+        column_name = "tag_"+str(i)
+        if (subject in document["level_2"]) or (subject in document["level_3"]):
+            df.loc[index, subject] = 1
+        else:
+            df.loc[index, subject] = 0
+```
+
+
+
 
 ## IV - Análise exploratória
 
-Para análise exploratória, algumas questões foram levantadas para que os dados nos respondessem.
+A análise exploratória foi interessante para entender os dados. 
+Para isso, foi feito a distribuição dos dados através da plotagem de histogramas.
+
+Assim, algumas questões foram levantadas para que os dados nos respondessem, conforme a seguir.
 
 ### Quais são os assuntos mais recorrentes?
 
@@ -118,41 +193,7 @@ Exemplos de classificação:
 
 Pode-se observar que há diversos assuntos para uma questão única, o que nos mostra que esse é um problema com multiplas saídas/resultados.
 
-Uma vez que o modelo foi desenhado para classificar os assuntos de matemática, foi necessário separar essa única classificação "conjuntas" em diversas classificações. Assim, levantou-se todas as possibilidades de assuntos existentes no banco de questões de matemática, criando assim um _array_ com 87 assuntos distintos.
 
-```
-subjects = ['Álgebra', 'Probabilidade e estatística', 'Números', 'Noções de lógica',
-            'Noções de Lógica Matemática', 'Matemática Financeira', 'Grandezas e medidas', 'Razão e Proporção',
-            'Geometria', 'Estatística', 'Determinantes', 'Álgebra linear', 'Análise Combinatória', 'Arcos na Circunferência',
-            'Área e Perímetro das Figuras Planas', 'Aritmética', 'Arranjo', 'Cálculo diferencial integral', 'Cilindros', 'Circunferência',
-            'Circunferência e Círculo', 'Combinação', 'Comprimento', 'Volume', 'Cones', 'Esfera', 'Congruência de Triângulos',
-            'Cônicas', 'Conjuntos', 'Conjuntos Função', 'Decimal', 'Equação do Primeiro Grau', 'Equação do Segundo Grau',
-            'Equações', 'Equações polinomiais', 'Equações polinomiais Exponenciais', 'Esfera', 'Expressões algébricas', 'Expressões algébricas',
-            'Fatorial', 'Função', 'Função Exponencial', 'Função Logarítmica', 'Razões e proporções',
-            'Função Quadrática', 'Função Trigonometria', 'Funções Definidas por Várias Sentenças', 'Funções Trigonométricas', 'Fundamentos',
-            'Geometria analítica', 'Geometria espacial', 'Geometria plana', 'Gráficos', 'Inequação do Segundo Grau', 'Inequações', 'Inequações polinomiais',
-            'Inequações polinomiais', 'Juros Compostos', 'Juros Simples', 'Lógica matemática', 'Prismas', 'Médias',
-            'Ponderada', 'Porcentagem', 'Probabilidade', 'Múltiplos e Divisores', 'Notação científica',
-            'Outros', 'Permutação', 'Pirâmides', 'Polígonos', 'Porcentagem', 'Princípio Fundamental da Contagem', 'Prismas', 
-            'Problemas sobre as 4 operações', 'Razões Trigonométricas no Triângulo Retângulo', 'Relações Métricas do Triângulo Retângulo',
-            'Relações Métricas em Triângulos Quaisquer', 'Reta', 'Retas e Planos', 'Sequências', 'Sistema de Numeração e Métrico', 'Superfície Poliédrica e Poliedros',
-            'Tempo', 'Trigonometria', 'Troncos', 'Volume']
-```
-
-Como feito nas questões, o _output_ foi dividido igual o bag of words implementado no enunciado das questões. Para o treinamento do modelo, foi colocado 1 ou 0 se o assunto pertencia àquela questão ou não.
-
-```
-df = documents
-for index, document in df.iterrows():
-    i = 0
-    for subject in subjects:
-        i += 1
-        column_name = "tag_"+str(i)
-        if (subject in document["level_2"]) or (subject in document["level_3"]):
-            df.loc[index, subject] = 1
-        else:
-            df.loc[index, subject] = 0
-```
 ### testes de classificadores
 
 Como o problema consiste em uma classificação de multiplas saídas, foi utilizado a classe _MultiOutputClassifier_ da biblioteca _sklearn_.
