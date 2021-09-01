@@ -92,13 +92,13 @@ sentence_vectors = np.array(sentence_vectors)
 
 Para análise exploratória, algumas questões foram levantadas para que os dados nos respondessem.
 
-### Quais os assuntos mais recorrentes?
+### Quais são os assuntos mais recorrentes?
 
 Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores
 
 ![plot](./fig_subject_count.png)
 
-### Quais as palavras mais recorrentes?
+### Quais são as palavras mais recorrentes?
 
 Foi validado quais eram as palavras mais recorrentes, para validar se não haviam palavras que não deveriam estar presentes.
 
