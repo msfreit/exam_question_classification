@@ -90,6 +90,8 @@ sentence_vectors = np.array(sentence_vectors)
 
 ## IV - Análise exploratória
 
+![plot](./model_output.png)
+
 ## V - Modelagem
 
 O modelo proposto foi desenhado de acordo com a classificação já existente no banco de dados. As classificações existentes consistiam na concatenação dos assuntos em que a questão estava envolvida.
