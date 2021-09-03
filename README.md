@@ -223,6 +223,20 @@ Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma 
 
 ![plot](./fig_model_output.png)
 
+
+## VI - Conclusão 
+######################
+    COLOCAR OQ UE FOI EXTRAÍDO
+    CONCLUSÕES
+    DISCUSSÕES
+    LIÇOES APRENDIDAS
+    ONDE VOU UTILIZAR ESSA ANÁLISE/MODELO
+        - questões não classificadas do RevisApp
+        - Solução mais completa para os usuários
+        - Desafio do Dia
+        - Direcionamento para o usuário estudar os assuntos que tem mais "carência"
+######################
+
 ########################################################################
 ● Divisão dos dados em dados de treino e teste
 ● Criação de um benchmark (modelo inicial para comparações futuras)
