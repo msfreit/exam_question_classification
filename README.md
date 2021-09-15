@@ -179,7 +179,7 @@ Assim, algumas questões foram levantadas para que os dados nos respondessem, co
 
 Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores.
 
-![plot](./fig_subject_count.png)
+![plot](./images/fig_subject_count.png)
 
 Verificou-se que os assuntos de Álgebra e Geometria dominavam as questões. São os assuntos mais recorrentes em matemática nos vestibulares. Após isso, os assuntos de Geometria Espacial, Funções, Probabilidade tiveram menor peso.
 
@@ -187,7 +187,7 @@ Verificou-se que os assuntos de Álgebra e Geometria dominavam as questões. Sã
 
 Foi validado quais eram as palavras mais recorrentes, com o objetivo de validar se não haviam palavras que não deveriam estar presentes.
 
-![plot](./fig_word_count.png)
+![plot](./images/fig_word_count.png)
 
 Primeiramente, na validação inicial, identificou-se que haviam muitas algaritmos usados em matemática como "palavras" recorrentes, como exemplo o _x_, _y_, _i_, etc..
 Assim, foi necessário voltar ao passo da limpeza dos dados para que esses algaritmos fossem removidos, removendo assim suas frequencias da nossa lista de palavras mais frequentes.
@@ -201,7 +201,7 @@ for word in wordfreq:
 ```
 Assim, foi criado uma nuvem de palavra para mostrar quais as palavras mais recorrentes, e foi verificado que todas as mais recorrentes eram palavras válidas, com significado semântico.
 
-![plot](./fig_wordcloud.png)
+![plot](./images/fig_wordcloud.png)
 
 Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para aproximadamente 74%.
 
@@ -246,7 +246,7 @@ Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma 
 
 Também, foi feito o plot dos valores do modelo, com o objetivo de entender como ficou a distribuição dos acertos. 
 
-![plot](./fig_model_output.png)
+![plot](./images/fig_model_output.png)
 
 Observando os gráficos de respostas acima, é possivel concluir que, aproximadamente 26% das questões tiveram menos de 0 acertos.
 Aproximadamente 16% das questões tiveram 100% de acerto na predição do modelo.
@@ -255,7 +255,7 @@ Como o o problema em questão era apontar os assuntos existente na questão, con
 ## VI - Fechamento 🔒
 
 Inicialmente, foi desenhado um modelo para a clusterização das questões, conforme desenho a seguir:
-![plot](./fig_solution_v1.jpeg)
+![plot](./images/images/fig_solution_v1.jpeg)
 
 Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
