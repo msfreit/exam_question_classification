@@ -16,7 +16,7 @@ Utilizamos ela para poder identificar as palavras mais recorrentes e entender se
 
 ## II - Importação dos dados
 
-Como os dados estavam no bando do Mongo. utilizei o framework do MongoDB para conectar e importar os dados para o Python
+Como os dados estavam no bando do Mongo. utilizei o framework do MongoDB para conectar e importar os dados para o Python.
 
 ```
 client = MongoClient(config["MONGO_CONNECTION_STRING"])
@@ -157,12 +157,9 @@ for index, document in df.iterrows():
             df.loc[index, subject] = 0
 ```
 
-
-
-
 ## IV - Análise exploratória
 
-A análise exploratória foi interessante para entender os dados. 
+A análise exploratória foi interessante para entender os dados e resumir suas características principais. 
 Para isso, foi feito a distribuição dos dados através da plotagem de histogramas.
 
 Assim, algumas questões foram levantadas para que os dados nos respondessem, conforme a seguir.
@@ -179,8 +176,21 @@ Foi validado quais eram as palavras mais recorrentes, para validar se não havia
 
 ![plot](./fig_word_count.png)
 
+Primeiramente, na validação inicial, identificou-se que haviam muitas algaritmos usados em matemática como "palavras" recorrentes, como exemplo o _x_, _y_, _i_, etc..
+Assim, foi necessário voltar ao passo da limpeza dos dados para que esses algaritmos fossem removidos, removendo assim suas frequencias da nossa lista de palavras mais frequentes.
+
+```
+for word in wordfreq:
+    if (len(word)) < 2:
+        wordfreq[word] = 0
+    if (word.isnumeric()):  # removendo alguns "números" e variáveis (exemplo: x, y, etc..)
+        wordfreq[word] = 0
+```
+Assim, foi criado uma nuvem de palavra para mostrar quais as palavras mais recorrentes, e foi verificado que todas as mais recorrentes eram palavras válidas, com significado semântico.
 
 ![plot](./fig_wordcloud.png)
+
+Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para 65%.
 
 ## V - Modelagem
 
@@ -230,118 +240,19 @@ A implementação do modelo foi desafiador. A falta de visão matemática dos da
 
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
 
+É necessário entender os seus dados para implementação do modelo. durante a implementação, foi percebido que o mesmo modelo necessitará de ajustes e adaptações para outras matérias.
+A limpeza feita para matemática não é a mesma limpeza de dados a ser feita para biologia, por exemplo.
 
 
-
-
-######################
-    COLOCAR OQ UE FOI EXTRAÍDO
-    CONCLUSÕES
-    DISCUSSÕES
-    LIÇOES APRENDIDAS
-    ONDE VOU UTILIZAR ESSA ANÁLISE/MODELO
-        - questões não classificadas do RevisApp
-        - Solução mais completa para os usuários
-        - Desafio do Dia
-        - Direcionamento para o usuário estudar os assuntos que tem mais "carência"
-######################
-
-########################################################################
-● Divisão dos dados em dados de treino e teste
-● Criação de um benchmark (modelo inicial para comparações futuras)
-● Triagem de modelo(s) para utilização
-● Utilização de métricas de mensuração de performance dos algoritmos
-● Calibração dos hiperparâmetros do(s) algoritmo(s)
-
-########################################################################
-Anotações
-########################################################################
-classificação
-
-agrupar questões
-
-bag of words
-n grams
-########################################################################
-
-Seguem as ações que conversamos agora:
-
-1. elaborar a árvore com disciplinas e assuntos que serão mapeados na classificação;
-
-2. preparar a base de dados com questões previamente classificadas dentro segundo os assuntos mapeados na árvore;
-
-3. estudar as primeiras técnicas para classificação de texto como bag-of-words e regressão logística;
-
-4. estudar técnicas mais avançadas para classificação de texto.
-
---- proposições
-
-########################################################################
-removo stopwords
-
-procurar biblioteca com stopwords
-
-sigmoide logistica
-
-cross validation:
-separa em 2 partes - uma parte pra treinar - outra pra testar
-matriz de confusão.
-########################################################################
-
-Tópicos da mentoria 05/06
-
-Converter HTML para texto (ex.: UTF-8, ASCII)
-
-Uso da classe CountVectorizer: https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html
-
-Stopwords: https://gist.github.com/alopes/5358189
+## VII - Referências
 
 Validação cruzada:
 
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
-Matriz de confusão: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
-
-Atividades posteriores:
-
-- validação cruzada (KFold estratificado): https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html
-
-- bag of words normalizado (TfidfVectorizer): https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
-
-- repositório com códigos de exemplo: https://github.com/alex-carneiro/Moving2DS
-
-############################################################################
-26/06/2021
-Clustering: https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
-
-Clustering com Scikit-Learn: https://scikit-learn.org/stable/modules/clustering.html
-
-Overfit: https://machinelearningmastery.com/overfitting-and-underfitting-with-machine-learning-algorithms/
-
-Distância de Levenshtein: http://people.cs.pitt.edu/~kirk/cs1501/Pruhs/Spring2006/assignments/editdistance/Levenshtein%20Distance.htm
-
-Distância de Levenshtein com Python: https://pypi.org/project/python-Levenshtein/
-
-Uso de votação para associar novas tags para as sentenças após clusterização
-
-TODO: elaborar o pipeline sequencial que descreva as tarefas para agrupamento e mapeamento das questões
-
-Vídeo sobre descrição automática de cenas: https://www.youtube.com/watch?v=40riCqvRoMs
-
-############################################################################
-10/07/2021
-Como definir o número ideal de clusters para o K Means: https://jtemporal.com/kmeans-and-elbow-method/
-
-
-
-########################################
-## BAG OF WORDS
-### Observações importantes
-O saco de palavras permite que você utilize classificadores e faça outras análises posteriormente. Criar um saco de palavra não te dá informação alguma instantaneamente.   O saco de palavras utilizando a incidência das palavras pode ser utilizado, porém, esse modelo possui problemas já bem conhecidos. São eles: (1) “perda” de informação sintática, considerando que se trata de uma abordagem estatística. (2) Modelos que consideram a frequência inversa de palavras no conjunto de documentos já provaram ser mais eficientes em muitos casos.
-
-https://www.computersciencemaster.com.br/como-criar-um-saco-de-palavras-em-python/
-########################################
+Multi target classification
+ - https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputClassifier.html
 
 ---
 ⌨️ por [Mauricio Freitas](https://github.com/msfreit)
