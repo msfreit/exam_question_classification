@@ -14,7 +14,7 @@ Assim, surgiu a ideia de implementar um modelo e treiná-lo, a fim de classifica
 Para que esse trabalho seja automatizado de uma forma inteligente, foi idealizado um sistema para a avaliação de textos, com o objetivo de ler, intepretar e classificar as questões de acordo com o conteúdo de cada questão.
 Com isso, o modelo iniciou-se com a preparação e limpeza dos dados, seguido da implementação do bag of words, função essa que tem como objetivo identificar as palavras mais recorrentes e entender se elas agregam na classificação das questões.
 Após a implementação, foi validado se as palavras tinham valor semântico para o treinamento do modelo, onde descobriu-se a necessidade de remover algumas palavras.
-Assim, com essa limpeza de dados, desenvolveu-se o modelo que, em sua média, tem dado uma taxa de acerto de 75%.
+Assim, com essa limpeza de dados, desenvolveu-se o modelo que, em sua média, tem dado uma taxa de acerto de 74%.
 
 ## II - Importação dos dados 🎲
 
@@ -168,22 +168,24 @@ for index, document in df.iterrows():
             df.loc[index, subject] = 0
 ```
 
-## IV - Análise exploratória
+## IV - Análise exploratória 🤓
 
-A análise exploratória foi interessante para entender os dados e resumir suas características principais. 
+A análise exploratória deve ser feita antes de qualquer tipo de modelagem em si. Esse passo é essencial entender a natureza dos dados e também para resumir suas características principais.
 Para isso, foi feito a distribuição dos dados através da plotagem de histogramas.
 
 Assim, algumas questões foram levantadas para que os dados nos respondessem, conforme a seguir.
 
 ### Quais são os assuntos mais recorrentes?
 
-Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores
+Foi verificado os assuntos de matemática mais recorrentes, para entender a distribuição dos valores.
 
 ![plot](./fig_subject_count.png)
 
+Verificou-se que os assuntos de Álgebra e Geometria dominavam as questões. São os assuntos mais recorrentes em matemática nos vestibulares. Após isso, os assuntos de Geometria Espacial, Funções, Probabilidade tiveram menor peso.
+
 ### Quais são as palavras mais recorrentes?
 
-Foi validado quais eram as palavras mais recorrentes, para validar se não haviam palavras que não deveriam estar presentes.
+Foi validado quais eram as palavras mais recorrentes, com o objetivo de validar se não haviam palavras que não deveriam estar presentes.
 
 ![plot](./fig_word_count.png)
 
@@ -201,9 +203,9 @@ Assim, foi criado uma nuvem de palavra para mostrar quais as palavras mais recor
 
 ![plot](./fig_wordcloud.png)
 
-Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para aproximadamente 75%.
+Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para aproximadamente 74%.
 
-## V - Modelagem
+## V - Modelagem 🔥
 
 O modelo proposto foi desenhado de acordo com a classificação já existente no banco de dados. As classificações existentes consistiam na concatenação dos assuntos em que a questão estava envolvida.
 
@@ -240,29 +242,38 @@ hits = np.any((y_pred + y_test) > 1, axis=1)
 print("taxa de acerto: ", round(hits.sum()/len(hits)*100,2), "%")
 ```
 
-Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 75%.
+Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 74%.
+
+Também, foi feito o plot dos valores do modelo, com o objetivo de entender como ficou a distribuição dos acertos. 
 
 ![plot](./fig_model_output.png)
 
+Observando os gráficos de respostas acima, é possivel concluir que, aproximadamente 26% das questões tiveram menos de 0 acertos.
+Aproximadamente 16% das questões tiveram 100% de acerto na predição do modelo.
+Como o o problema em questão era apontar os assuntos existente na questão, considerou-se apenas as predições com pelo menos 1 acerto, totalizando assim 74% de acertividade.
 
-## VI - Conclusão 
+## VI - Fechamento 
 
-A implementação do modelo foi desafiador. A falta de visão matemática dos dados atrapalhou um pouco o desenvolvimento do modelo. A mentoria realizada pela equipe de profissionais da awari foi fundamental em todo o processo de desenvolvimento, monstrando onde estavam os gaps do meu conhecimento e onde eu poderia melhorar para chegar no resultado final.
-
+Inicialmente, foi desenhado um modelo para a clusterização das questões, conforme desenho a seguir:
+![plot](./fig_solution_v1.jpeg)
+Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
-
-É necessário entender os seus dados para implementação do modelo. durante a implementação, foi percebido que o mesmo modelo necessitará de ajustes e adaptações para outras matérias.
+A implementação deste modelo foi desafiador. A falta de visão matemática dos dados atrapalhou um pouco o desenvolvimento do modelo. A mentoria realizada pela equipe de profissionais da awari foi fundamental em todo o processo de desenvolvimento, monstrando onde estavam os gaps do meu conhecimento e onde eu poderia melhorar para chegar no resultado final.
+Também, conclui-se que é necessário entender os seus dados para implementação do modelo. Durante a implementação, foi percebido que o mesmo modelo necessitará de ajustes e adaptações para outras matérias.
 A limpeza feita para matemática não é a mesma limpeza de dados a ser feita para biologia, por exemplo.
 
-
 ## VII - Referências
+Bag of Words:
+ - https://www.mygreatlearning.com/blog/bag-of-words/
+
+Stemming and Lemmatization in Python:
+ - https://www.datacamp.com/community/tutorials/stemming-lemmatization-python
 
 Validação cruzada:
-
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
-Multi target classification
+Multi target classification:
  - https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputClassifier.html
 
 ---
