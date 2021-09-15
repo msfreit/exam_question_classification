@@ -255,6 +255,7 @@ Como o o problema em questão era apontar os assuntos existente na questão, con
 ## VI - Fechamento 🔒
 
 Inicialmente, foi desenhado um modelo para a clusterização das questões, conforme desenho a seguir:
+
 ![plot](./images/fig_solution_v1.jpeg)
 
 Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
