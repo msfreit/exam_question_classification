@@ -248,8 +248,10 @@ Também, foi feito o plot dos valores do modelo, com o objetivo de entender como
 
 ![plot](./images/fig_model_output.png)
 
-Observando os gráficos de respostas acima, é possivel concluir que, aproximadamente 26% das questões tiveram menos de 0 acertos.
+O gráfico de respostas 1, nos mostra que apenas 17% das questões tiveram 85% de acerto ou mais. Agora, a ponta oposta do gráfico nos mostra que 100% das questões tiveram 0 ou mais acertos, o que é óbvio.
+Observando os gráficos de respostas 2, é possivel concluir que, aproximadamente 26% das questões tiveram 0 acertos.
 Aproximadamente 16% das questões tiveram 100% de acerto na predição do modelo.
+
 Como o o problema em questão era apontar os assuntos existente na questão, considerou-se apenas as predições com pelo menos 1 acerto, totalizando assim 74% de acertividade.
 
 ## VI - Fechamento 🔒
@@ -260,7 +262,9 @@ Inicialmente, foi desenhado um modelo para a clusterização das questões, conf
 
 Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
+
 A implementação deste modelo foi desafiador. A falta de visão matemática dos dados atrapalhou um pouco o desenvolvimento do modelo. A mentoria realizada pela equipe de profissionais da awari foi fundamental em todo o processo de desenvolvimento, monstrando onde estavam os gaps do meu conhecimento e onde eu poderia melhorar para chegar no resultado final.
+
 Também, conclui-se que é necessário entender os seus dados para implementação do modelo. Durante a implementação, foi percebido que o mesmo modelo necessitará de ajustes e adaptações para outras matérias.
 A limpeza feita para matemática não é a mesma limpeza de dados a ser feita para biologia, por exemplo.
 
