@@ -110,3 +110,26 @@ O saco de palavras permite que você utilize classificadores e faça outras aná
 
 https://www.computersciencemaster.com.br/como-criar-um-saco-de-palavras-em-python/
 ########################################
+
+1 - Como explicar melhor os gráficos
+    - os graficos são complementares
+2 - Análise Exploratória
+    - Histograma mostrando a distribuição, as classificações
+    - numero de assuntos por questão
+    - termos mais recorrentes
+    - wordcloud
+    - respostas para perguntas
+    - quantas questões eu tenho por assunto?
+    - qual a variação - desvio padrão, variancia
+    - palavras com muita entropia -
+3 - Modelo - como explicar melhor
+    - referencia - URL do sklearn
+    - https://link.springer.com/content/pdf/10.1023/A:1010933404324.pdf
+
+--------
+[OK] remover acentos 
+[OK] manter os radicais apenas
+--------
+tempo - frequencia - sazonalidade
+scipy - biblioteca com transformada de fourier - "irmã" no numpy
+https://pt.wikipedia.org/wiki/Transformada_de_Fourier

@@ -255,7 +255,7 @@ Como o o problema em questão era apontar os assuntos existente na questão, con
 ## VI - Fechamento 🔒
 
 Inicialmente, foi desenhado um modelo para a clusterização das questões, conforme desenho a seguir:
-![plot](./images/images/fig_solution_v1.jpeg)
+![plot](./images/fig_solution_v1.jpeg)
 
 Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
