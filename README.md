@@ -4,31 +4,42 @@ Modelo de Machine Learning para Classificação de Questões de Vestibular
 
 ## I - Exposição do Problema 🚀
 
-Este projeto iniciou-se a partir de um problema da startup em que faço parte. Um certo momento, levantou-se a necessidade de fornecer aos nossos usuários, questões de vestibulares para que eles possam estudar mais e ter mais conteúdos para se darem bem no vestibular.
-Assim, criou-se um banco de dados com 120 mil questões
-Porém, após validarmos os dados, identificou-se que nem todos as questões estavam classificadas de acordo com o assunto que elas pertenciam.
+Este projeto iniciou-se a partir de um problema da startup em que faço parte. Um certo momento, levantou-se a necessidade de fornecer aos nossos usuários, questões de vestibulares para que eles possam estudar mais e ter mais conteúdos para irem bem no vestibular.
+Com isso, houve a necessidade de adicionar no nosso sistema, questões de vestibular. Assim, criou-se um banco de dados com 120 mil questões de vestibular.
+Porém, após validarmos os dados, identificamos que nem todos as questões estavam classificadas de acordo com o assunto que elas pertenciam, o que nos daria um enorme trabalho para classificá-las manualmente.
 Assim, surgiu a ideia de implementar um modelo e treiná-lo, a fim de classificar cada questão de acordo com o assunto que essa questão pertence.
 
-### Modelo
-Para isso, foi necessário utilizar alguma técnica para a avaliação de textos.
-Assim, idealizou-se usar o bag of words. Uma explicação simples é que o bag of words é uma lista que contem todas as palavras que estão nos textos de maneira não repetida.
-Utilizamos ela para poder identificar as palavras mais recorrentes e entender se ela agregam na classificação das questões.
+### O Sistema 💻
 
-## II - Importação dos dados
+Para que esse trabalho seja automatizado de uma forma inteligente, foi idealizado um sistema para a avaliação de textos, com o objetivo de ler, intepretar e classificar as questões de acordo com o conteúdo de cada questão.
+Com isso, o modelo iniciou-se com a preparação e limpeza dos dados, seguido da implementação do bag of words, função essa que tem como objetivo identificar as palavras mais recorrentes e entender se elas agregam na classificação das questões.
+Após a implementação, foi validado se as palavras tinham valor semântico para o treinamento do modelo, onde descobriu-se a necessidade de remover algumas palavras.
+Assim, com essa limpeza de dados, desenvolveu-se o modelo que, em sua média, tem dado uma taxa de acerto de 75%.
 
-Como os dados estavam no bando do Mongo. utilizei o framework do MongoDB para conectar e importar os dados para o Python.
+## II - Importação dos dados 🎲
+
+Como dito anteriormente, foi feito um banco de dados com as 120 mil questões. Para o desenvolvimento da análise, foram selecionados apenas questões de matemática.
+Assim, como os dados estavam no banco do NoSQL do MongoDB, foi utilizado um framework do próprio Mongo para conectar e importar os dados para o Python.
 
 ```
 client = MongoClient(config["MONGO_CONNECTION_STRING"])
 database = client["revisapp"]
 collection = database["questions"]
+
+query["subjectName"] = u"matematica"
+
+cursor = collection.find(query, projection=projection, sort=sort, limit=40000)
+questoes = pd.array(list(cursor))
+
+client.close()
 ```
 
+Como apenas foi selecionado matemática, houve somente a seleção da matéria em questão.
 
 ## III - Preparação dos dados
-Para a aquisição das questões, foi feito uma ferramenta de webscrapping para captura das questões.
-Assim, os dados são recebidos e inseridos no banco no formato HTML
-Com isso, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
+
+Na fase de aquisição das questões, foi feito uma ferramenta de webscrapping para a captura das questões. Assim, os dados foram recebidos e inseridos no banco no formato HTML, uma vez que pra apresentação, também utilizamos a linguagem HTML.
+Com isso, para uma análise mais acertiva, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
 
 ```
 from bs4 import BeautifulSoup
@@ -181,16 +192,16 @@ Assim, foi necessário voltar ao passo da limpeza dos dados para que esses algar
 
 ```
 for word in wordfreq:
-    if (len(word)) < 2:
+    if (len(word)) < 2: # removendo variáveis (exemplo: x, y, etc..)
         wordfreq[word] = 0
-    if (word.isnumeric()):  # removendo alguns "números" e variáveis (exemplo: x, y, etc..)
+    if (word.isnumeric()):  # removendo "números" 
         wordfreq[word] = 0
 ```
 Assim, foi criado uma nuvem de palavra para mostrar quais as palavras mais recorrentes, e foi verificado que todas as mais recorrentes eram palavras válidas, com significado semântico.
 
 ![plot](./fig_wordcloud.png)
 
-Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para 65%.
+Com essa limpeza de dados que a análise exploratória nos apontou a necessidade, tivemos uma melhora considerável na taxa de acerto das predições, saindo de uma média de 55% de acerto para aproximadamente 75%.
 
 ## V - Modelagem
 
@@ -229,7 +240,7 @@ hits = np.any((y_pred + y_test) > 1, axis=1)
 print("taxa de acerto: ", round(hits.sum()/len(hits)*100,2), "%")
 ```
 
-Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 65%.
+Assim, após inúmeros treinos e respostas do modelo, observou-se que temos uma taxa de acerto média de 75%.
 
 ![plot](./fig_model_output.png)
 
