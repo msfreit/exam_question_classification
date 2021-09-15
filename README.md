@@ -36,7 +36,7 @@ client.close()
 
 Como apenas foi selecionado matemática, houve somente a seleção da matéria em questão.
 
-## III - Preparação dos dados
+## III - Preparação dos dados 🔨
 
 Na fase de aquisição das questões, foi feito uma ferramenta de webscrapping para a captura das questões. Assim, os dados foram recebidos e inseridos no banco no formato HTML, uma vez que pra apresentação, também utilizamos a linguagem HTML.
 Com isso, para uma análise mais acertiva, foi necessário convertê-los em texto utilizado a biblioteca BeautifulSoup.
@@ -252,25 +252,32 @@ Observando os gráficos de respostas acima, é possivel concluir que, aproximada
 Aproximadamente 16% das questões tiveram 100% de acerto na predição do modelo.
 Como o o problema em questão era apontar os assuntos existente na questão, considerou-se apenas as predições com pelo menos 1 acerto, totalizando assim 74% de acertividade.
 
-## VI - Fechamento 
+## VI - Fechamento 🔒
 
 Inicialmente, foi desenhado um modelo para a clusterização das questões, conforme desenho a seguir:
 ![plot](./fig_solution_v1.jpeg)
+
 Porém, após o melhor conhecimento dos dados, foi identificado que o modelo idealizado não funcionaria para a solução. Assim, durante o trajeto do projeto, foi alterado a solução.
 Da implementação, foi extraído um modelo que será utilizado no aplicativo RevisApp. A idéia é utilizar o modelo para otimizar os estudos dos usuários do _app_ através de uma funcionalidade ainda em implementação. Com isso, poderemos indicar aos nossos usuários quais assuntos ele tem mais dificuldade e, consequentemente, quais precisam ser estudados com mais intensidade, sugerindo assim o conteúido e questões similares dos assuntos em déficit de conhecimento.
 A implementação deste modelo foi desafiador. A falta de visão matemática dos dados atrapalhou um pouco o desenvolvimento do modelo. A mentoria realizada pela equipe de profissionais da awari foi fundamental em todo o processo de desenvolvimento, monstrando onde estavam os gaps do meu conhecimento e onde eu poderia melhorar para chegar no resultado final.
 Também, conclui-se que é necessário entender os seus dados para implementação do modelo. Durante a implementação, foi percebido que o mesmo modelo necessitará de ajustes e adaptações para outras matérias.
 A limpeza feita para matemática não é a mesma limpeza de dados a ser feita para biologia, por exemplo.
 
-## VII - Referências
+## VII - Referências 🕮
+
+Natural Language Toolkit:
+ - https://www.nltk.org/
+
 Bag of Words:
  - https://www.mygreatlearning.com/blog/bag-of-words/
 
 Stemming and Lemmatization in Python:
  - https://www.datacamp.com/community/tutorials/stemming-lemmatization-python
 
-Validação cruzada:
+Splitting data:
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+
+Validação cruzada:
 - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
 Multi target classification:
